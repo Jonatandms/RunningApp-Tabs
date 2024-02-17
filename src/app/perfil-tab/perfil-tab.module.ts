@@ -2,19 +2,17 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PerfilTabPage } from './perfil-tab.page';
 
-import { TabsPageRoutingModule } from './tabs-routing.module';
-
-import { TabsPage } from './tabs.page';
-
+import { Tab3PageRoutingModule } from './perfil-tab-routing.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    TabsPageRoutingModule
+    Tab3PageRoutingModule
   ],
-  declarations: [TabsPage]
+  declarations: [PerfilTabPage]
 })
-export class TabsPageModule {}
+export class PerfilTabPageModule {}

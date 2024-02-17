@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "runningapp-4ecbd": {
+      "hosting": {
+        "app": [
+          "runningapp-4ecbd"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "runningapp-4ecbd"
+  }
+}
