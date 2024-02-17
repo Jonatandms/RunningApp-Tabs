@@ -1,0 +1,7 @@
+{
+  "name": "RunningApp-tabs",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
