@@ -6,7 +6,7 @@ import {
   UserCredential
 } from '@angular/fire/auth';
 // import { DataService } from './data.service';
-import { getAuth, setPersistence, browserSessionPersistence, inMemoryPersistence } from "firebase/auth";
+import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -15,6 +15,16 @@ import { Router } from '@angular/router';
 
 export class AuthService {
 
+  signOut() {
+    const auth = getAuth();
+    auth.signOut().then(() => {
+      // Sign-out successful.
+      localStorage.removeItem('user');
+      this.router.navigate(['home']);
+    })
+
+  }
+
 
   constructor(private auth: Auth, private router : Router) { }
 
@@ -22,7 +32,7 @@ export class AuthService {
     // Aquí puedes implementar la lógica para autenticar al usuario
     // Podrías hacer una llamada a un servicio externo o validar localmente
     const auth = getAuth();
-    setPersistence(auth, browserSessionPersistence)
+    setPersistence(auth, browserLocalPersistence)
       .then(() => {
         // Existing and future Auth states are now persisted in the current
         // session only. Closing the window would clear any existing state even
@@ -52,18 +62,15 @@ export class AuthService {
     const user = JSON.parse(token as string);
     return user !== null ? true : false;
   }
-  // logout(): void {
-  //   // Eliminamos el estado de autenticación del almacenamiento local al cerrar sesión
-  //   localStorage.removeItem('loggedIn');
-  // }
-
-  // isLoggedIn(): boolean {
-  //   // Comprobamos si el usuario está autenticado consultando el estado en el almacenamiento local
-  //   return localStorage.getItem('loggedIn') === 'true';
-  // }
 
 
-  async register(name: string, email: string, password: string, accountType: string) {
+  getCurrentUser(){
+    const auth = getAuth();
+    const user = auth.currentUser;
+    return user
+  }
+
+  async register(email: string, password: string) {
     // Aquí podrías enviar los datos de registro a un servicio externo o guardarlos localmente
     // Por ahora, solo simularemos un registro exitoso
 
@@ -74,7 +81,7 @@ export class AuthService {
         email,
         password
       );
-      console.log(`Registrando usuario: ${name}, ${email}, ${password}, ${accountType}`);
+      //console.log(`Registrando usuario: ${name}, ${email}, ${password}, ${accountType}`);
       // this.data.createUser(name, email, accountType, (await user).user.uid);
       return user;
   }

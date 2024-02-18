@@ -9,15 +9,15 @@ const routes: Routes = [
     children: [
       {
         path: 'resume-tab',
-        loadChildren: () => import('../resume-tab/resume-tab.module').then(m => m.ResumeTabPageModule)
+        loadChildren: () => import('../resume-tab/resume-tab.module').then(m => m.ResumeTabPageModule), //canActivate: [AuthGuard]
       },
       {
         path: 'tab2',
-        loadChildren: () => import('../rutinas-tab/tab2.module').then(m => m.Tab2PageModule)
+        loadChildren: () => import('../rutinas-tab/tab2.module').then(m => m.Tab2PageModule), //canActivate: [AuthGuard]
       },
       {
         path: 'tab3',
-        loadChildren: () => import('../perfil-tab/perfil-tab.module').then(m => m.PerfilTabPageModule)
+        loadChildren: () => import('../perfil-tab/perfil-tab.module').then(m => m.PerfilTabPageModule),// canActivate: [AuthGuard]
       },
       {
         path: '',

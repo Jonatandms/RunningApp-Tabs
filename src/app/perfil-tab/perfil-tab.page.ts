@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Auth, User } from '@angular/fire/auth';
+import { Auth, User, authState, getAuth, onAuthStateChanged } from '@angular/fire/auth';
 import { AuthService } from '../services/auth.service';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-tab3',
@@ -9,17 +10,21 @@ import { AuthService } from '../services/auth.service';
 })
 export class PerfilTabPage {
 
-  user: User;
+  userData: any;
 
-  constructor(private auth: Auth) {}
-  ngOnInit() {
-    this.user = this.auth.currentUser!;
-    console.log(this.user);
+  constructor(private auth: Auth, private authS : AuthService, private dataS : DataService) {
+    this.getprofile();
   }
 
-  // signOut() {
-  //   this.AuthService.signOut();
-  // }
+  async getprofile() {
+    await this.dataS.getUsuario(this.auth.currentUser.uid).then(data => {
+      this.userData = data;
+    })
+  }
+
+  signOut() {
+    this.authS.signOut();
+  }
 
 
 }
