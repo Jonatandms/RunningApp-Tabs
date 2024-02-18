@@ -15,17 +15,7 @@ export class LoginPage {
 
   constructor(private authService: AuthService, private router: Router, public navCtrl : NavController) {}
 
-  login() {
+   login() {
     this.authService.login(this.email, this.password)
-    .then((userCredential) => {
-      console.log('Inicio de sesión exitoso:', userCredential.user.uid);
-
-      // Redirige al usuario después del inicio de sesión
-      // this.router.navigateByUrl('tabs');
-
-      this.router.navigateByUrl('/tabs');
-
-    })
-
   }
 }

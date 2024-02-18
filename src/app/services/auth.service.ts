@@ -6,6 +6,8 @@ import {
   UserCredential
 } from '@angular/fire/auth';
 // import { DataService } from './data.service';
+import { getAuth, setPersistence, browserSessionPersistence, inMemoryPersistence } from "firebase/auth";
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +16,42 @@ import {
 export class AuthService {
 
 
-  constructor(private auth: Auth) { }
+  constructor(private auth: Auth, private router : Router) { }
 
   login(email: string, password: string) {
     // Aquí puedes implementar la lógica para autenticar al usuario
     // Podrías hacer una llamada a un servicio externo o validar localmente
+    const auth = getAuth();
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        // Existing and future Auth states are now persisted in the current
+        // session only. Closing the window would clear any existing state even
+        // if a user forgets to sign out.
+        // ...
+        // New sign-in will be persisted with session persistence.
+        console.log('persistencia de sesion activada');
+        signInWithEmailAndPassword(auth, email, password).then((userCredential: UserCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          localStorage.setItem('user', JSON.stringify(user));
+          console.log('Usuario logueado con éxito', user);
+          this.router.navigate(['tabs']);
+          // ...
+        })
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
 
-    const user = signInWithEmailAndPassword(this.auth, email, password)
-    return user
   }
 
-
+  get isLoggedIn(): boolean {
+    const token = localStorage.getItem('user')
+    const user = JSON.parse(token as string);
+    return user !== null ? true : false;
+  }
   // logout(): void {
   //   // Eliminamos el estado de autenticación del almacenamiento local al cerrar sesión
   //   localStorage.removeItem('loggedIn');
